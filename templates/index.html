@@ -5,9 +5,47 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/style.css">
-    <title>Check URL</title>
+    <title>Investigate URL</title>
 </head>
 <body>
-    
+    <div class="container">
+        <h1 class="heading">
+            Investigator <img class="icon" src="../static/icon.png">
+        </h1>
+        <h3 class="subtitle">Check doubtful URL here before visiting for detection of danger.</h3>
+        <form class="url-form">
+            <input 
+                type="text" 
+                placeholder="Enter URL for investigation. Ex: https://www.google.com" 
+                name="url"
+                id="url"
+                class="url-input"    
+            >
+            <button 
+                type="submit"
+                id="submit"
+                class="submit-button"
+            >Investigate</button>
+        </form>
+        <div class="result" id="result-div">
+            <!-- <img src="../static/danger.webp"> -->
+        </div>
+    </div>
+    <script>
+        const button = document.getElementById('submit');
+        const input = document.getElementById('url');
+        const result = document.getElementById('result-div');
+        button.onclick = ((e) => {
+            e.preventDefault();
+            result.innerHTML = "";
+            let url = input.value;
+            var valid = /^(ftp|http|https):\/\/[^ "]+$/.test(url);
+            if(!valid){
+                result.innerHTML = "URL Not Valid";
+                return;
+            }
+            result.innerHTML =  '<img src="../static/safe.png">';        
+        });
+    </script>
 </body>
 </html>
