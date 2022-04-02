@@ -63,7 +63,9 @@ def index():
 def predict():
   url = request.get_json(force=True)['url']
   print(url)
-  if prediction(url)[0][0] >= 0.5:
+  confidence = prediction(url)[0][0]
+  print(confidence)
+  if confidence >= 0.75:
     return "Danger"
   else:
     return "Safe"

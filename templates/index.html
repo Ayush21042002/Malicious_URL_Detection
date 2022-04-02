@@ -35,17 +35,25 @@
         const button = document.getElementById('submit');
         const input = document.getElementById('url');
         const result = document.getElementById('result-div');
-        button.onclick = ((e) => {
+        button.onclick = async(e) => {
             e.preventDefault();
             result.innerHTML = "";
             let url = input.value;
-            var valid = /^(ftp|http|https):\/\/[^ "]+$/.test(url);
+            var valid = /^((ftp|http|https):\/\/)?[^ "]+$/.test(url);
             if(!valid){
                 result.innerHTML = "URL Not Valid";
                 return;
             }
-            result.innerHTML =  '<img src="../static/safe.png">';        
-        });
+            const response = await fetch('/predict',{
+                method: "POST",
+                body: JSON.stringify({url}),
+            });
+            const data = await response.text();
+            if(data === "Danger")
+                result.innerHTML = "<img src='../static/danger.webp'>"
+            else
+                result.innerHTML = "<img src='../static/safe.png'>"        
+        };
     </script>
 </body>
 </html>
