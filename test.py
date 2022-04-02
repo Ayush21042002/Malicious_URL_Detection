@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request
 import tldextract
+import numpy as np
 import pandas as pd
 from urllib.parse import urlparse
 import pickle
@@ -14,6 +14,7 @@ label_dict = {}
 for feature in ['subdomain', 'domain', 'domain_suffix']:
     with open(f'utils/label_{feature}_dictionary.pkl', 'rb') as f:
       label_dict[feature] = pickle.load(f)
+
 
 def parsed_url(url):
     # extract subdomain, domain, and domain suffix from url
@@ -53,21 +54,8 @@ def prediction(url):
   return model.predict(df)
 
 
-app = Flask(__name__)
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/predict',methods=['POST'])
-def predict():
-  url = request.get_json(force=True)['url']
-  print(url)
-  if prediction(url)[0][0] >= 0.5:
-    return "Danger"
-  else:
-    return "Safe"
-
-if __name__ == "__main__":
-    app.debug = True
-    app.run()
+url = "https://numpy.org/doc/stable/reference/generated/numpy.matrix.html"
+if prediction(url)[0][0] >= 0.5:
+    print("DANGER:  Malicious URL!!!!!!!!!!!")
+else:
+    print("URL is Safe!")
