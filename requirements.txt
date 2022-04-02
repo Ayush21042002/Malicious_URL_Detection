@@ -1,0 +1,7 @@
+numpy 
+pandas
+tldextract
+flask
+urllib
+pickle 
+tensorflow
